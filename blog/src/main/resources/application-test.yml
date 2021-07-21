@@ -1,0 +1,23 @@
+spring:
+  security:
+    user:
+      name: admin
+      password: 123456
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/my_blog?userUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    username: root
+    password: lk576042
+
+server:
+  port: 8082
+
+swagger:
+  basePackage: com.my_blog.controller
+  title: 我的博客网站
+  description: 网站主要技术：springboot+springsecurity+mybatis+thymeleaf
+  version: 1.0
+
+mybatis:
+  type-aliases-package: com.lk.my_blog.model
+  mapper-locations: classpath:mapper/*.xml
