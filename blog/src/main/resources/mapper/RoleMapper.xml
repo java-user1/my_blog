@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lk.my_blog.dao.RoleMapper">
+    <resultMap id="role" type="com.lk.my_blog.model.Role">
+        <result property="id" column="id"/>
+        <result property="role" column="role"/>
+        <result property="description" column="description"/>
+    </resultMap>
+    <sql id="BASE_TABLE">
+        t_role
+    </sql>
+
+    <sql id="BASE_COLUMN">
+        role,description
+    </sql>
+
+    <select id="getRoleById" resultType="role">
+        select * from t_role where id=#{id}
+    </select>
+
+    <select id="getRoleByName" resultType="role">
+        select * from t_role where role=#{role}
+    </select>
+
+    <select id="getAllRole" resultType="role">
+        select * from t_role;
+    </select>
+
+    <insert id="addRole" parameterType="role">
+        insert into
+        <include refid="BASE_TABLE"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            role,description
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{role},#{description}
+        </trim>
+    </insert>
+
+    <update id="updateRoleByRole" parameterType="role">
+        update
+        <include refid="BASE_TABLE"/>
+        <set>
+            <if test="role!=null">
+                role=#{role},
+            </if>
+            <if test="description!=null">
+                description=#{description},
+            </if>
+        </set>
+        where role=#{role}
+    </update>
+
+    <delete id="deleteRoleByName">
+        delete from <include refid="BASE_TABLE" />
+        where role=#{role}
+    </delete>
+</mapper>
