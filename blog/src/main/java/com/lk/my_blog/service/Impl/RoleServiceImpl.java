@@ -68,4 +68,10 @@ public class RoleServiceImpl implements RoleService {
         }
         return 0;
     }
+
+    @Override
+    public String getRoleByUid(int uid) {
+        String role = roleMapper.getRoleByUid(uid);
+        return role;
+    }
 }

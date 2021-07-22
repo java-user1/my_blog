@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)file:///D:/web%E8%84%9A%E6%9C%AC/WEB/login2.html -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <title>登陆</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            background: url(./admin/images/register.jpg) no-repeat 0px 0px;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            -moz-background-size: 100% 100%;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        #loginDiv {
+            width: 25%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+            background-color: rgba(75, 81, 95, 0.3);
+            box-shadow: 7px 7px 17px rgba(52, 56, 66, 0.5);
+            border-radius: 5px;
+        }
+
+        #name_trip {
+            margin-left: 50px;
+            color: red;
+        }
+
+        p {
+            margin-top: 30px;
+            margin-left: 20px;
+            color: azure;
+        }
+
+        label{
+            font-size: 10px;
+            color: red;
+        }
+
+        input {
+            margin-left: 15px;
+            border-radius: 5px;
+            border-style: hidden;
+            height: 30px;
+            width: 140px;
+            background-color: rgba(216, 191, 216, 0.5);
+            outline: none;
+            color: #f0edf3;
+            padding-left: 10px;
+        }
+        img{
+            width: 60px;
+            height: 30px;
+            position: absolute;
+            margin-left: 10px;
+        }
+        .button {
+            border-color: cornsilk;
+            background-color: rgba(100, 149, 237, .7);
+            color: aliceblue;
+            border-style: hidden;
+            border-radius: 5px;
+            width: 100px;
+            height: 31px;
+            font-size: 16px;
+        }
+        .a{
+            border-color: cornsilk;
+            background-color: rgba(100, 149, 237, .7);
+            color: aliceblue;
+            border-style: hidden;
+            border-radius: 5px;
+            width: 100px;
+            height: 31px;
+            font-size: 16px
+        }
+        .form-signin {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+        .form-signin>.code {
+            width: 70px;
+            display: inline-block;
+            margin-left: 90px;
+        }
+        .form-signin>#code {
+            width: 60px;
+            display: inline-block;
+            background-color: #8CC152;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div id="loginDiv">
+    <form class="form-signin" th:action="@{/toLogin}" method="post">
+        <h1 style="text-align: center;color: aliceblue;">[[#{mess.user.btn}]]</h1>
+        <div style="text-align: center" th:if="${param.error}">
+            <span th:text="用户名或密码错误" style="font-size:10px;color: red"></span>
+        </div>
+<!--        <div style="text-align: center">-->
+<!--            <span th:text="${#response.status}" style="font-size:10px;color: red"></span>-->
+<!--        </div>-->
+        <p>用户名: <input id="userNname" name="username" type="text" th:placeholder="#{mess.user.name}"><label id="name_trip"></label></p>
+
+        <p>密&nbsp;&nbsp;&nbsp;码: <input id="password" name="password" type="password" th:placeholder="#{mess.user.password}"><label id="password_trip"></label></p>
+        <br/>
+        <input id="captcha" name="captcha" type="text" class="code" th:placeholder="#{mess.user.CAPTCHA}">
+        <img onclick="checkVerifyCode()" id="verifyCode"/>
+        <div style="text-align: center;margin-top: 30px;">
+            <input type="submit" class="button" onclick="checkVerifyCode()" th:value="#{mess.user.btn}">
+            <a th:href="@{/toRegister}"><button type="button" class="button">[[#{mess.user.register}]]</button></a>
+        </div>
+        <div style="text-align: center;margin-top: 40px;">
+            <a class="btn btn-sm" style="font-size: 5px" th:href="@{toLogin(l='zh_CN')}">中文</a>&emsp;
+            <a class="btn btn-sm" style="font-size: 5px" th:href="@{toLogin(l='en_US')}">English</a>
+        </div>
+    </form>
+</div>
+
+</body>
+<script type="text/javascript">
+    checkVerifyCode();
+    function trip(obj, trip) {
+        document.getElementById(obj).innerHTML = "<b>" + trip + "</b>";
+    }
+    function checkVerifyCode(){
+        // var checkCode = document.getElementById("code").value;
+        var inputCode = document.getElementById("captcha").value;
+        // if (checkCode.toUpperCase()!=inputCode.toUpperCase()) {
+        //
+        //     trip("code_trip", "验证码错误!!");
+        //     // alert("验证码输入错误")
+        // }
+        document.getElementById("verifyCode").src= timestamp("http://localhost:8082/verifyCode")
+    }
+
+    function timestamp(url) {
+        var getTimestamp = new Date().getTime();
+        if(url.indexOf("?")>-1){
+            url = url+"&timestamp"+getTimestamp
+        }else {
+            url = url+"?timestamp="+getTimestamp
+        }
+        return url;
+    }
+
+
+
+</script>
+</html>

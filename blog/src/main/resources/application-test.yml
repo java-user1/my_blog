@@ -1,13 +1,11 @@
 spring:
-  security:
-    user:
-      name: admin
-      password: 123456
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/my_blog?userUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
     username: root
     password: lk576042
+  messages:
+    basename: i18n.mess
 
 server:
   port: 8082
@@ -21,3 +19,4 @@ swagger:
 mybatis:
   type-aliases-package: com.lk.my_blog.model
   mapper-locations: classpath:mapper/*.xml
+

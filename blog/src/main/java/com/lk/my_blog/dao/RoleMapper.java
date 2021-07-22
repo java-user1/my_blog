@@ -54,4 +54,11 @@ public interface RoleMapper {
      * @return
      */
     int deleteRoleByName(String role);
+
+    /**
+     * 根据用户id查询用户的角色信息
+     * @param uid
+     * @return
+     */
+    String getRoleByUid(int uid);
 }

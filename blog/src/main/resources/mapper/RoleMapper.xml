@@ -57,4 +57,11 @@
         delete from <include refid="BASE_TABLE" />
         where role=#{role}
     </delete>
+
+    <select id="getRoleByUid" resultType="String">
+        select role from t_role as r
+        left join t_user_role as ur on ur.rid=r.id
+        left join t_user as u on ur.uid=u.id
+        where u.id=#{uid}
+    </select>
 </mapper>
