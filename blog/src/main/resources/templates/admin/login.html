@@ -3,7 +3,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script th:src="@{https://code.jquery.com/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/admin/js/base.js}"></script>
     <title>登陆</title>
     <style>
         * {
@@ -17,7 +18,7 @@
             overflow: hidden;
             margin: 0;
             padding: 0;
-            background: url(./admin/images/register.jpg) no-repeat 0px 0px;
+            background: url(../admin/images/register.jpg) no-repeat 0px 0px;
             background-repeat: no-repeat;
             background-size: 100% 100%;
             -moz-background-size: 100% 100%;
@@ -116,15 +117,12 @@
 </head>
 
 <body>
+<div class="fail-con" style="display: none;margin-bottom: 500px;position: absolute">
+    <div class="alert alert-danger" style="display: inline-block;color: red" role="alert" id="fail-login">失败信息</div>
+</div>
 <div id="loginDiv">
-    <form class="form-signin" th:action="@{/toLogin}" method="post">
+    <form class="form-signin" id="login-form" onsubmit="return to()">
         <h1 style="text-align: center;color: aliceblue;">[[#{mess.user.btn}]]</h1>
-        <div style="text-align: center" th:if="${param.error}">
-            <span th:text="用户名或密码错误" style="font-size:10px;color: red"></span>
-        </div>
-<!--        <div style="text-align: center">-->
-<!--            <span th:text="${#response.status}" style="font-size:10px;color: red"></span>-->
-<!--        </div>-->
         <p>用户名: <input id="userNname" name="username" type="text" th:placeholder="#{mess.user.name}"><label id="name_trip"></label></p>
 
         <p>密&nbsp;&nbsp;&nbsp;码: <input id="password" name="password" type="password" th:placeholder="#{mess.user.password}"><label id="password_trip"></label></p>
@@ -132,31 +130,33 @@
         <input id="captcha" name="captcha" type="text" class="code" th:placeholder="#{mess.user.CAPTCHA}">
         <img onclick="checkVerifyCode()" id="verifyCode"/>
         <div style="text-align: center;margin-top: 30px;">
-            <input type="submit" class="button" onclick="checkVerifyCode()" th:value="#{mess.user.btn}">
-            <a th:href="@{/toRegister}"><button type="button" class="button">[[#{mess.user.register}]]</button></a>
+            <input type="submit" class="button" th:value="#{mess.user.btn}">
+            <a href=""><button type="button" class="button">[[#{mess.user.register}]]</button></a>
         </div>
         <div style="text-align: center;margin-top: 40px;">
-            <a class="btn btn-sm" style="font-size: 5px" th:href="@{toLogin(l='zh_CN')}">中文</a>&emsp;
-            <a class="btn btn-sm" style="font-size: 5px" th:href="@{toLogin(l='en_US')}">English</a>
+            <a class="btn btn-sm" style="font-size: 5px" th:href="@{/home/toLogin(l='zh_CN')}">中文</a>&emsp;
+            <a class="btn btn-sm" style="font-size: 5px" th:href="@{/home/toLogin(l='en_US')}">English</a>
         </div>
     </form>
 </div>
 
 </body>
+
 <script type="text/javascript">
+    function showFailMsg(options) {
+        document.getElementById("fail-login").innerHTML=options
+        $('.fail-con').fadeIn('fast', function () {
+            $('.fail-con').fadeOut('5000');
+        });
+    }
+
     checkVerifyCode();
     function trip(obj, trip) {
         document.getElementById(obj).innerHTML = "<b>" + trip + "</b>";
     }
     function checkVerifyCode(){
-        // var checkCode = document.getElementById("code").value;
         var inputCode = document.getElementById("captcha").value;
-        // if (checkCode.toUpperCase()!=inputCode.toUpperCase()) {
-        //
-        //     trip("code_trip", "验证码错误!!");
-        //     // alert("验证码输入错误")
-        // }
-        document.getElementById("verifyCode").src= timestamp("http://localhost:8082/verifyCode")
+        document.getElementById("verifyCode").src= timestamp("http://localhost:8082/home/verifyCode")
     }
 
     function timestamp(url) {
@@ -168,8 +168,28 @@
         }
         return url;
     }
-
-
-
+    var tale = new $.tale();
+    function to() {
+        var jsonData={}
+        var serializerData = $("#login-form").serialize();
+        serializerData = decodeURIComponent(serializerData)
+        var array = serializerData.split("&");
+        $(array).each(function (i) {
+            jsonData[array[i].split("=")[0]]=array[i].split("=")[1];
+        })
+        $.ajax({
+            type:"post",
+            url:"/toLogin",
+            data:jsonData,
+            success:function (data) {
+                if(data.status===200){
+                    location.href="/admin/"
+                }else {
+                    showFailMsg(data.msg)
+                }
+            }
+        })
+        return false;
+    }
 </script>
 </html>

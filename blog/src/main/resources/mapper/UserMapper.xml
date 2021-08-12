@@ -9,20 +9,21 @@
         <result property="email" column="email"/>
         <result property="creatTime" column="creat_time"/>
         <result property="active" column="active"/>
+        <result property="avatarUrl" column="avatar_url"/>
     </resultMap>
     <sql id="BASE_TABLE">
         t_user
     </sql>
 
     <sql id="BASE_COLUMN">
-        username,password,email,creat_time,active
+        username,password,email,creat_time,active,avatar_url
     </sql>
 
-    <select id="getUserById" resultType="user">
+    <select id="getUserById" resultMap="user">
         select * from t_user where id=#{id}
     </select>
 
-    <select id="getUserByName" resultType="user">
+    <select id="getUserByName" resultMap="user">
         select * from t_user where username=#{name}
     </select>
 
@@ -34,11 +35,11 @@
         insert into
         <include refid="BASE_TABLE"/>
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            username,password,email,active
+            username,password,email,active,avatar_url
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            #{username},#{password},#{email},#{active}
+            #{username},#{password},#{email},#{active},#{avatarUrl}
         </trim>
     </insert>
 
@@ -57,6 +58,9 @@
             </if>
             <if test="active!=null">
                 active=#{active},
+            </if>
+            <if test="active!=null">
+                avatar_url=#{avatarUrl},
             </if>
         </set>
         where username=#{username}

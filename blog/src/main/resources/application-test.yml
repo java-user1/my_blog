@@ -6,9 +6,22 @@ spring:
     password: lk576042
   messages:
     basename: i18n.mess
+  mail:
+    host: smtp.qq.com
+    username: 1178576042@qq.com
+    password: wnzfncyioqgqjeff
+    # wnzfncyioqgqjeff
+    port: 25
+    protocol: smtp
+    default-encoding: UTF-8
+  thymeleaf:
+    cache: false
 
 server:
   port: 8082
+  servlet:
+    session:
+      timeout: 6000
 
 swagger:
   basePackage: com.my_blog.controller

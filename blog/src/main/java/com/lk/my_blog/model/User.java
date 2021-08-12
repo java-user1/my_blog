@@ -17,4 +17,5 @@ public class User {
     private String email;
     private Date creatTime;
     private int active;
+    private String avatarUrl;
 }

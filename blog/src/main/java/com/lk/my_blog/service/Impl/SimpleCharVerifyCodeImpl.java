@@ -2,9 +2,7 @@ package com.lk.my_blog.service.Impl;
 
 import com.lk.my_blog.model.VerifyCode;
 import com.lk.my_blog.service.VerifyCodeService;
-import com.lk.my_blog.util.RandomUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.lk.my_blog.utils.RandomUtils;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
