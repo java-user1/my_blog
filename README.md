@@ -1,5 +1,5 @@
 # my_blog
-我的个人博客-springboot+springsecurity+mybatis
+我的个人博客-springboot+springsecurity+mybatis；
 本人主要在于后端开发；
 前端界面部分是通过baidu.com得到的，使用开源工具layui.com组件组装完成，略显粗糙。
 登录页
