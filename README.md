@@ -1,5 +1,6 @@
 # my_blog
 我的个人博客-springboot+springsecurity+mybatis
+本人主要在于后端开发，前端界面部分是通过baidu.com得到的，使用开源工具layui.com组件组装完成，略显粗糙
 登录页
 包含验证码功能使用springsecurity实现
 ![登录页](https://user-images.githubusercontent.com/72128933/130383053-b2ca5554-4180-4fa3-a531-51af6add7dd3.png)
