@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lk.my_blog.dao.UrlMapper">
+    <resultMap id="Url" type="com.lk.my_blog.model.Url">
+        <result property="id" column="id"/>
+        <result property="url" column="url"/>
+        <result property="urlDescription" column="url_description"/>
+    </resultMap>
+
+    <select id="selectById">
+        select t_url.name from t_url where id=#{id}
+    </select>
+
+    <select id="getUrlByRole" resultMap="Url">
+        select t_url.* from t_url,url_role where t_url_role.rid=#{rid} and t_url_role.url_id=url.id
+    </select>
+
+    <select id="getAllUrl" resultMap="Url">
+        select * from t_url
+    </select>
+
+    <select id="getRoleByUrl" resultType="role">
+        select r.* from t_role as r
+        left join t_url_role as ur on ur.rid=r.id
+        left join t_url as u on ur.url_id=u.id
+        where u.url=#{url}
+    </select>
+
+    <insert id="insert" parameterType="com.lk.my_blog.model.Url">
+        insert into t_url(url,url_description) values (#{url},#{urlDescription})
+    </insert>
+
+    <delete id="deleteById">
+        delete from t_url where id=#{id}
+    </delete>
+
+    <update id="updateById">
+        update t_url set url=#{url},url_description=#{url_description} where t_url.id=#{id}
+    </update>
+
+</mapper>

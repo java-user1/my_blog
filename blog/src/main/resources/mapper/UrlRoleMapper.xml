@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lk.my_blog.dao.UrlRoleMapper">
+    <resultMap id="UrlRole" type="com.lk.my_blog.model.UrlRole">
+        <result property="id" column="id"/>
+        <result property="urlId" column="url_id"/>
+        <result property="rid" column="rid"/>
+    </resultMap>
+    <select id="getAll" resultMap="UrlRole">
+        select * from url_role
+    </select>
+    <insert id="insert" parameterType="urlRole">
+        insert into url_role(uid,rid) values (#{uid},#{rid})
+    </insert>
+    <update id="updateById" parameterType="urlRole">
+        update url_role set uid=#{uid},rid=#{rid} where id=#{id}
+    </update>
+    <delete id="deleteById">
+        delete from url_role where id=#{id}
+    </delete>
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lk.my_blog.dao.ContactMapper">
+    <resultMap id="contact" type="com.lk.my_blog.model.Contact">
+        <result column="id" property="id"/>
+        <result column="visitor_name" property="visitorName"/>
+        <result column="email" property="email"/>
+        <result column="subject" property="subject"/>
+        <result column="message" property="message"/>
+    </resultMap>
+
+    <sql id="BASE_TABLE">
+        t_contact
+    </sql>
+
+    <sql id="BASE_COLUMN">
+        id,visitor_name,email,subject,message
+    </sql>
+
+    <select id="getContactById" resultMap="contact">
+        select * from t_contact where id=#{id}
+    </select>
+
+    <select id="getContactByName" resultMap="contact">
+        select * from t_contact where visitor_name=#{name}
+    </select>
+
+    <select id="getAllContact" resultMap="contact">
+        select * from t_contact;
+    </select>
+
+    <insert id="addContact" parameterType="contact">
+        insert into
+        <include refid="BASE_TABLE"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            visitor_name,email,subject,message
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{visitorName},#{email},#{subject},#{message}
+        </trim>
+    </insert>
+
+    <delete id="deleteContactById">
+        delete from <include refid="BASE_TABLE" />
+        where id=#{id}
+    </delete>
+
+    <select id="countContact" resultType="java.lang.Long">
+        select count(id) from t_contact
+    </select>
+
+</mapper>

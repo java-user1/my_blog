@@ -3,8 +3,10 @@ package com.lk.my_blog.controller;
 import com.lk.my_blog.config.LogConfig;
 import com.lk.my_blog.model.Contact;
 import com.lk.my_blog.model.RespBean;
+import com.lk.my_blog.model.User;
 import com.lk.my_blog.model.VerifyCode;
 import com.lk.my_blog.service.Impl.ContactServiceImpl;
+import com.lk.my_blog.service.UserService;
 import com.lk.my_blog.service.VerifyCodeService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public class HomeController {
     @Autowired
     private ContactServiceImpl contactService;
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping("/")
     public String index(){
         return "home/index1";
@@ -42,6 +47,12 @@ public class HomeController {
     @GetMapping("/login")
     public String login(){
         return "admin/login";
+    }
+
+    @ApiOperation("注册页")
+    @GetMapping("/register")
+    public String register(){
+        return "admin/register";
     }
 
     @ApiOperation("关于我")
@@ -93,6 +104,35 @@ public class HomeController {
             response.getOutputStream().flush();
         } catch (IOException e) {
             logConfig.getLog().info(" ",e);
+        }
+    }
+
+    @ApiOperation("注册验证")
+    @PostMapping("/submit_register")
+    @ResponseBody
+    public RespBean submitRegister(@RequestParam String username,
+                                   @RequestParam String password,
+                                   @RequestParam String email,
+                                   @RequestParam String surePassword){
+        if(password.length()<6||password.length()>14){
+            return RespBean.error("密码长度在6-14位之间");
+        }
+        if(!password.equals(surePassword)){
+            return RespBean.error("确认密码不正确");
+        }
+        User userByName = userService.getUserByName(username);
+        if(userByName!=null){
+            return RespBean.error("用户名已存在");
+        }
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
+        int i = userService.addUser(user);
+        if(i>0){
+            return RespBean.ok("注册成功");
+        }else {
+            return RespBean.error("注册失败");
         }
     }
 }

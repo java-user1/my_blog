@@ -75,9 +75,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(customerAuthenticationSuccessHandler)
                 .failureHandler(customerAuthenticationFailureHandler)
                 //注销
-                .and().logout().permitAll()
-                .logoutSuccessHandler(logoutSuccessHandler)
+                .and().logout().permitAll().logoutSuccessUrl("/home/login")
                 .and().csrf().disable();
+        http.headers().frameOptions().disable();
         http.addFilterBefore(verifyCodeFilter, UsernamePasswordAuthenticationFilter.class);
     }
 

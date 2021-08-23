@@ -85,6 +85,7 @@
             height: 31px;
             font-size: 16px;
         }
+        .button:hover{background-color: #3A87AD}
         .a{
             border-color: cornsilk;
             background-color: rgba(100, 149, 237, .7);
@@ -131,7 +132,7 @@
         <img onclick="checkVerifyCode()" id="verifyCode"/>
         <div style="text-align: center;margin-top: 30px;">
             <input type="submit" class="button" th:value="#{mess.user.btn}">
-            <a href=""><button type="button" class="button">[[#{mess.user.register}]]</button></a>
+            <a th:href="@{/home/register}"><button type="button" class="button">[[#{mess.user.register}]]</button></a>
         </div>
         <div style="text-align: center;margin-top: 40px;">
             <a class="btn btn-sm" style="font-size: 5px" th:href="@{/home/toLogin(l='zh_CN')}">中文</a>&emsp;

@@ -8,6 +8,7 @@
         <result property="password" column="password"/>
         <result property="email" column="email"/>
         <result property="creatTime" column="creat_time"/>
+        <result property="updateTime" column="update_time"/>
         <result property="active" column="active"/>
         <result property="avatarUrl" column="avatar_url"/>
     </resultMap>
@@ -16,7 +17,7 @@
     </sql>
 
     <sql id="BASE_COLUMN">
-        username,password,email,creat_time,active,avatar_url
+        username,password,email,creat_time,active,update_time,avatar_url
     </sql>
 
     <select id="getUserById" resultMap="user">
@@ -35,11 +36,11 @@
         insert into
         <include refid="BASE_TABLE"/>
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            username,password,email,active,avatar_url
+            username,password,email
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            #{username},#{password},#{email},#{active},#{avatarUrl}
+            #{username},#{password},#{email}
         </trim>
     </insert>
 
